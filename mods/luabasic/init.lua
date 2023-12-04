@@ -38,7 +38,18 @@ local function interp()
             return
         end
         local spaceIndex = utf8.find(x, " ")
-        t[i] = string.lower(utf8.sub(x, spaceIndex + 1, -1))
+        local caps = false
+        t[i] = ""
+        for c in utf8.sub(x, spaceIndex + 1, -1):gmatch(".") do
+            if c == "." and caps then c = ":" end
+            if c == "!" then
+                caps = not caps
+            else
+                if caps then t[i] = t[i] .. string.upper(c)
+                else t[i] = t[i] .. string.lower(c)
+                end
+            end
+        end
     end
 
     local p = print
@@ -50,7 +61,7 @@ local function interp()
         end
         DOSprint(r)
     end
-    loadstring(table.concat(t, "\n"))()
+    pcall(loadstring(table.concat(t, "\n")))
     print = p
     DOSprint("")
     DOSprint("READY")
