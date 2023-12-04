@@ -61,7 +61,8 @@ local function interp()
         end
         DOSprint(r)
     end
-    pcall(loadstring(table.concat(t, "\n")))
+    local status, err = pcall(loadstring(table.concat(t, "\n")))
+    if not status then DOSprint(err) end
     print = p
     DOSprint("")
     DOSprint("READY")
