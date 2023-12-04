@@ -2,15 +2,18 @@ print("loading Sneed's mod loader (formerly chucks)")
 
 local lfs = require("lfs")
 
-Game = nil
-
 local a = 1
 while true do
     local name, value = debug.getlocal(4, a)
     if not name then break end
-    if type(value) == "table" and value.INI then
-        Game = value
-        break
+    if type(value) == "table" then
+        if value.INI then Game = value
+        elseif a == 21 then StageLayer = value
+        elseif a == 22 then Sky = value
+        elseif a == 23 then Foreground = value
+        elseif a == 25 then UILayer = value
+        elseif a == 26 then TutorialLayer = value
+        end
     end
     a = a + 1
 end
